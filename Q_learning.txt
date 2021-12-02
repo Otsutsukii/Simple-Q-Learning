@@ -1,0 +1,115 @@
+epsilon : for the choice of an action it represents the tradeoff between
+a random choice and the use of Q(s,a)
+
+epsilon = 0 , choice a* = max(Q(s,a))
+epsilon = 1 , choose randomly in A(s)
+
+other wise chhose a* with probability 1 - epsilon 
+
+Reward matrix R :
+
+        0   1   2   3   4   5
+
+0       -1  -1  -1  -1  0   -1
+1       -1  -1  -1  0   -1  100
+2       -1  -1  -1  0   -1  -1
+3       -1  0   0   -1  0   -1
+4       0   -1  -1  0   -1  100
+5       -1  0   -1  -1  0   100
+Formula :
+Q(state,action) = R(state,action) + Gamma*Max(Q(next state,all actions))
+
+Gamma = 0.8
+Q table : 
+
+Row are the states , Column are the actions 
+
+        0   1   2   3   4   5
+
+0       0   0   0   0   0   0
+1       0   0   0   0   0   0
+2       0   0   0   0   0   0
+3       0   0   0   0   0   0
+4       0   0   0   0   0   0
+5       0   0   0   0   0   0
+
+bellman Q equation Q(1,5) = R(1,5) + 0.8*[max(Q(5,1), Q(5,4), Q(2,5))]
+                   Q(1,5) = 100 + 0.8*[Q(2,100)] 
+                   Q(1,5) = 100 + 0.8*100 = 180 
+
+updated Q 
+
+        0   1   2   3   4   5
+
+0       0   0   0   0   0   0
+1       0   0   0   0   0   100
+2       0   0   0   0   0   0
+3       0   0   0   0   0   0
+4       0   0   0   0   0   0
+5       0   0   0   0   0   100
+
+start with state 3 :
+
+
+bellman Q equation Q(3,1) = R(3,1) + 0.8*[max(Q(1,5), Q(1,3))]
+                   Q(3,1) = 0 + 0.8*[Q(1,5)] 
+                   Q(3,1) = 0 + 0.8*100 = 80 
+
+        0   1   2   3   4   5
+
+0       0   0   0   0   0   0
+1       0   0   0   0   0   100
+2       0   0   0   0   0   0
+3       0   80   0   0   0   0
+4       0   0   0   0   0   0
+5       0   0   0   0   0   100
+
+
+start with state 4 :
+
+
+bellman Q equation Q(4,5) = R(4,5) + 0.8*[max(Q(5,5), Q(5,4), Q(5,1))]
+                   Q(4,5) = 100 + 0.8*[Q(5,5)] 
+                   Q(4,5) = 100 + 0.8*100 = 180 
+
+        0   1   2   3   4   5
+
+0       0   0   0   0   0   0
+1       0   0   0   0   0   100
+2       0   0   0   0   0   0
+3       0   80   0   0   0   0
+4       0   0   0   0   0   100
+5       0   0   0   0   0   100
+
+
+start with state 0 :
+
+
+bellman Q equation Q(0,4) = R(0,4) + 0.8*[max(Q(4,5), Q(4,3))]
+                   Q(0,4) = 0 + 0.8*[Q(4,5)] 
+                   Q(0,4) = 0 + 0.8*100 = 80 
+
+        0   1   2   3   4   5
+
+0       0   0   0   0   80   0
+1       0   0   0   0   0   100
+2       0   0   0   0   0   0
+3       0   80   0   0   0   0
+4       0   0   0   0   0   100
+5       0   0   0   0   0   100
+
+start with state 2 :
+
+
+bellman Q equation Q(2,3) = R(2,3) + 0.8*[max(Q(3,1), Q(3,4))]
+                   Q(2,3) = 0 + 0.8*[Q(3,1)] 
+                   Q(2,3) = 0 + 0.8*80 = 64
+
+        0   1   2   3   4   5
+
+0       0   0   0   0   80   0
+1       0   0   0   0   0   100
+2       0   0   0   64   0   0
+3       0   80   0   0   0   0
+4       0   0   0   0   0   100
+5       0   0   0   0   0   100
